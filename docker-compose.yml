@@ -1,0 +1,10 @@
+version: "3"
+services:
+  web:
+    build: ./web
+    ports:
+      - "8081:80"
+  words:
+    build: ./words
+  db:
+    build: ./db
