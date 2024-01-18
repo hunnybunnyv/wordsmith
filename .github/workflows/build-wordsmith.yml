@@ -17,8 +17,11 @@ jobs:
 
     - name: Builder les images Docker
       run: 
+        cd wordsmith/web
         docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/web:${{ github.event.pull_request.head.sha}} .
+        cd wordsmith/words
         docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/words:${{ github.event.pull_request.head.sha}} .
+        cd wordsmith/db
         docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/db:${{ github.event.pull_request.head.sha}} .
 
     - name: Push les images
