@@ -23,7 +23,7 @@ jobs:
         IMAGE_NAME: wordsmith
         TAG: db
       run: |
-        echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+        echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
         docker buildx create --use
         docker buildx build --push --platform linux/amd64,linux/arm64 -t $DOCKERHUB_USERNAME/$IMAGE_NAME:$TAG .
       working-directory: ./db
@@ -45,7 +45,7 @@ jobs:
         IMAGE_NAME: wordsmith
         TAG: words
       run: |
-        echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+        echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
         docker buildx create --use
         docker buildx build --push --platform linux/amd64,linux/arm64 -t $DOCKERHUB_USERNAME/$IMAGE_NAME:$TAG .
       working-directory: ./words
@@ -67,7 +67,7 @@ jobs:
         IMAGE_NAME: wordsmith
         TAG: web
       run: |
-        echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+        echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
         docker buildx create --use
         docker buildx build --push --platform linux/amd64,linux/arm64 -t $DOCKERHUB_USERNAME/$IMAGE_NAME:$TAG .
       working-directory: ./web
