@@ -1,0 +1,32 @@
+name: Build Wordsmith
+
+on:
+  pull_request:
+    types:
+      - labeled
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Se connecter sur Docker Hub
+      run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+    
+    - name: Checkout du code
+      uses: actions/checkout@v2
+
+    - name: Builder les images Docker
+      run: 
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/web:${{ github.event.pull_request.head.sha}} .
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/words:${{ github.event.pull_request.head.sha}} .
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/db:${{ github.event.pull_request.head.sha}} .
+
+    - name: Push les images
+      run: 
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/web:${{ github.event.pull_request.head.sha}}
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/words:${{ github.event.pull_request.head.sha}}
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/db:${{ github.event.pull_request.head.sha}}
+    
+    - name: Notifier 
+      run: echo "Build is done"
